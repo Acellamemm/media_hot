@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -6,6 +6,9 @@
 		<link rel="stylesheet" href="Styles.css" />
 	</head>
 	<body>
+		<!-- Dedicated background layer: avoids background-attachment:fixed bug on mobile -->
+		<div id="bg-layer"></div>
+
 		<h1 style="text-align: center; color: rgba(139, 194, 203, 0.95);">Interactive Media Library</h1>
 		<div id="filter-container" class="filter-container">
 
@@ -48,7 +51,7 @@
 	<!-- Live region updated by filterResources for screen readers -->
 	<div id="filter-status" class="sr-only" aria-live="polite"></div>
 	</div>
-	<p style="text-align: center; color:black">©EMMA and LUIS</p>
+	<p style="text-align: center; color:black">©EMMA and LOUIS</p>
 	<p style="text-align: center; color: black;">University of The Sacred Heart</p> 
 
 	<script src="Script1.js"></script>

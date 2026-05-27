@@ -36,39 +36,39 @@ function filterResources(category) {
     const cats = raw.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
     const show = category === 'all' || cats.includes(category);
 
-    // Toggle a class instead of manipulating inline styles directly
     resource.classList.toggle('hidden', !show);
-    // Keep accessibility tree in sync
     resource.setAttribute('aria-hidden', String(!show));
 
     if (show) visibleCount++;
   });
 
-  // Update an optional live region for screen readers
+  // Update live region for screen readers
   const status = document.getElementById('filter-status');
   if (status) {
     status.textContent = `${visibleCount} resource${visibleCount === 1 ? '' : 's'} shown`;
   }
 
-  // Change background image with zoom animation
-  const body = document.body;
-  const newImage = backgroundImages[category] || backgroundImages.all;
-  body.classList.remove('bg-zoom');
-  
-  // Trigger reflow to restart animation
-  void body.offsetWidth;
-  
-  body.style.backgroundImage = `url("${newImage}")`;
-  body.classList.add('bg-zoom');
+  // Target the dedicated bg-layer div instead of document.body.
+  // This is what makes background-size:cover work correctly on mobile —
+  // the layer is position:fixed with inset:0 so it always fills the screen,
+  // and we animate transform:scale() rather than background-size so cover
+  // is never overridden.
+  const bgLayer = document.getElementById('bg-layer');
+  if (bgLayer) {
+    const newImage = backgroundImages[category] || backgroundImages.all;
+    bgLayer.classList.remove('bg-zoom');
+    void bgLayer.offsetWidth; // force reflow to restart animation
+    bgLayer.style.backgroundImage = `url("${newImage}")`;
+    bgLayer.classList.add('bg-zoom');
+  }
 
   // Change h1 color based on filter category
   const h1 = document.querySelector('h1');
   if (h1) {
-    const newColor = h1Colors[category] || h1Colors.all;
-    h1.style.color = newColor;
+    h1.style.color = h1Colors[category] || h1Colors.all;
   }
 
-  // Change outer filter container background color
+  // Change filter container background color
   const filterContainer = document.getElementById('filter-container');
   if (filterContainer) {
     filterContainer.style.backgroundColor = filterContainerColors[category] || filterContainerColors.all;
